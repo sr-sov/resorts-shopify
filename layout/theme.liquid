@@ -6,12 +6,56 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <link rel="canonical" href="{{ canonical_url }}">
     
-    <title>{{ page_title }}</title>
+    <title>{{ page_title }}{% unless page_title contains shop.name %} &ndash; {{ shop.name }}{{ 'general.seo.title_suffix' | t }}{% endunless %}</title>
     
     {% if page_description %}
       <meta name="description" content="{{ page_description | escape }}">
+    {% else %}
+      <meta name="description" content="{{ 'general.seo.description' | t | escape }}">
     {% endif %}
     
+    <meta name="keywords" content="{{ 'general.seo.keywords' | t | escape }}">
+
+    <!-- Open Graph -->
+    <meta property="og:site_name" content="{{ shop.name }}">
+    <meta property="og:url" content="{{ canonical_url }}">
+    <meta property="og:title" content="{{ page_title | escape }}">
+    <meta property="og:type" content="website">
+    <meta property="og:description" content="{% if page_description %}{{ page_description | escape }}{% else %}{{ 'general.seo.description' | t | escape }}{% endif %}">
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="{{ page_title | escape }}">
+    <meta name="twitter:description" content="{% if page_description %}{{ page_description | escape }}{% else %}{{ 'general.seo.description' | t | escape }}{% endif %}">
+
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Resort",
+      "name": "{{ shop.name }}",
+      "description": "{% if page_description %}{{ page_description | escape }}{% else %}{{ 'general.seo.description' | t | escape }}{% endif %}",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Calamba",
+        "addressRegion": "Laguna",
+        "addressCountry": "PH"
+      },
+      "amenityFeature": [
+        {
+          "@type": "LocationFeatureSpecification",
+          "name": "Private Pool",
+          "value": true
+        },
+        {
+          "@type": "LocationFeatureSpecification",
+          "name": "Hot Spring",
+          "value": true
+        }
+      ]
+    }
+    </script>
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -79,8 +123,15 @@
       // Navbar scroll effect
       const nav = document.getElementById('nav');
       if (nav) {
+        let ticking = false;
         window.addEventListener('scroll', () => {
-          nav.classList.toggle('scrolled', window.scrollY > 80);
+          if (!ticking) {
+            window.requestAnimationFrame(() => {
+              nav.classList.toggle('scrolled', window.scrollY > 80);
+              ticking = false;
+            });
+            ticking = true;
+          }
         });
         // Initial check in case of page reload halfway down
         if (window.scrollY > 80) nav.classList.add('scrolled');
