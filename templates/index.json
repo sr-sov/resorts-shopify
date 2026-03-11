@@ -1,4 +1,5 @@
 {
+  "name": "Home page",
   "sections": {
     "hero": {
       "type": "hero",
@@ -47,7 +48,6 @@
         "room_Tn7KDb",
         "room_KVQRQG"
       ],
-      "name": "Featured Rooms",
       "settings": {
         "tag": "Accommodations",
         "title": "Your Private Sanctuary",
@@ -97,7 +97,6 @@
         "amenity_XJz9B3",
         "amenity_DD98BK"
       ],
-      "name": "Amenities Grid",
       "settings": {
         "tag": "Amenities & Wellness",
         "title": "Everything You Need, Nothing You Don't"
