@@ -1,0 +1,3 @@
+## 2026-03-11 - Use native button tags instead of divs for interactive elements
+**Learning:** Using `<div>` for interactive elements like the "Show all photos" button breaks keyboard accessibility because they are not natively focusable or operable via keyboard.
+**Action:** Always use `<button>` tags for interactive actions, or at least add `role="button"` and `tabindex="0"` with appropriate keyboard event listeners. In this case, `<button>` was chosen for native keyboard accessibility. Also, icon-only buttons like the close gallery "×" symbol need `aria-label`s to be screen-reader accessible.
