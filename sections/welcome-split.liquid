@@ -18,7 +18,7 @@
 {% if section.settings.split1_image != blank %}
 <div class="split">
   <div class="split-image">
-    <img src="{{ section.settings.split1_image | img_url: '1200x' }}" alt="{{ section.settings.split1_title }}" loading="lazy">
+    <img src="{{ section.settings.split1_image | image_url: width: 1200 }}" alt="{{ section.settings.split1_title }}" loading="lazy">
   </div>
   <div class="split-text">
     <div class="section-tag">{{ section.settings.split1_tag }}</div>
@@ -33,7 +33,7 @@
 {% if section.settings.split2_image != blank %}
 <div class="split reverse">
   <div class="split-image">
-    <img src="{{ section.settings.split2_image | img_url: '1200x' }}" alt="{{ section.settings.split2_title }}" loading="lazy">
+    <img src="{{ section.settings.split2_image | image_url: width: 1200 }}" alt="{{ section.settings.split2_title }}" loading="lazy">
   </div>
   <div class="split-text">
     <div class="section-tag">{{ section.settings.split2_tag }}</div>
