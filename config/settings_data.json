@@ -1,6 +1,16 @@
 {
     "current": "Default",
     "presets": {
-        "Default": {}
+        "Default": {
+            "sections": {
+                "hero": {
+                    "type": "hero",
+                    "settings": {
+                        "heading": "Experience Tabacon Luxury",
+                        "subheading": "Your private eco-retreat awaits in the heart of the jungle."
+                    }
+                }
+            }
+        }
     }
 }
