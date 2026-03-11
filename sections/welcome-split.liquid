@@ -1,0 +1,158 @@
+<section class="welcome section-warm" id="experience">
+  <div class="welcome-inner section-inner">
+    {% if section.settings.tag != blank %}
+      <div class="section-tag">{{ section.settings.tag }}</div>
+    {% endif %}
+    
+    {% if section.settings.title != blank %}
+      <h2 class="section-title">{{ section.settings.title }}</h2>
+    {% endif %}
+    
+    {% if section.settings.desc != blank %}
+      <p class="section-desc">{{ section.settings.desc }}</p>
+    {% endif %}
+  </div>
+</section>
+
+<!-- Split Component (First) -->
+{% if section.settings.split1_image != blank %}
+<div class="split">
+  <div class="split-image">
+    <img src="{{ section.settings.split1_image | img_url: '1200x' }}" alt="{{ section.settings.split1_title }}" loading="lazy">
+  </div>
+  <div class="split-text">
+    <div class="section-tag">{{ section.settings.split1_tag }}</div>
+    <h2 class="section-title">{{ section.settings.split1_title }}</h2>
+    <p>{{ section.settings.split1_desc }}</p>
+    <a href="{{ section.settings.split1_btn_link }}" class="btn btn-link">{{ section.settings.split1_btn_text }}</a>
+  </div>
+</div>
+{% endif %}
+
+<!-- Split Component (Second, Reversed) -->
+{% if section.settings.split2_image != blank %}
+<div class="split reverse">
+  <div class="split-image">
+    <img src="{{ section.settings.split2_image | img_url: '1200x' }}" alt="{{ section.settings.split2_title }}" loading="lazy">
+  </div>
+  <div class="split-text">
+    <div class="section-tag">{{ section.settings.split2_tag }}</div>
+    <h2 class="section-title">{{ section.settings.split2_title }}</h2>
+    <p>{{ section.settings.split2_desc }}</p>
+    <a href="{{ section.settings.split2_btn_link }}" class="btn btn-link">{{ section.settings.split2_btn_text }}</a>
+  </div>
+</div>
+{% endif %}
+
+{% schema %}
+{
+  "name": "Welcome & Features",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Welcome Text"
+    },
+    {
+      "type": "text",
+      "id": "tag",
+      "label": "Tag",
+      "default": "The Experience"
+    },
+    {
+      "type": "html",
+      "id": "title",
+      "label": "Title",
+      "default": "An escape designed for those who appreciate the extraordinary"
+    },
+    {
+      "type": "textarea",
+      "id": "desc",
+      "label": "Description",
+      "default": "Every detail at Paradise Cove has been thoughtfully curated — from the locally sourced materials that shape our architecture to the seasonal ingredients that inspire our cuisine."
+    },
+    {
+      "type": "header",
+      "content": "First Split Feature"
+    },
+    {
+      "type": "image_picker",
+      "id": "split1_image",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "split1_tag",
+      "label": "Tag",
+      "default": "Sustainable Design"
+    },
+    {
+      "type": "text",
+      "id": "split1_title",
+      "label": "Title",
+      "default": "Harmonious Architecture"
+    },
+    {
+      "type": "textarea",
+      "id": "split1_desc",
+      "label": "Description",
+      "default": "Our villas are designed to blur the line between indoor comfort and outdoor beauty."
+    },
+    {
+      "type": "text",
+      "id": "split1_btn_text",
+      "label": "Button Text",
+      "default": "Discover Our Ethos"
+    },
+    {
+      "type": "url",
+      "id": "split1_btn_link",
+      "label": "Button Link",
+      "default": "/pages/about"
+    },
+    {
+      "type": "header",
+      "content": "Second Split Feature (Reversed)"
+    },
+    {
+      "type": "image_picker",
+      "id": "split2_image",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "split2_tag",
+      "label": "Tag",
+      "default": "Culinary Journey"
+    },
+    {
+      "type": "text",
+      "id": "split2_title",
+      "label": "Title",
+      "default": "Taste the Rainforest"
+    },
+    {
+      "type": "textarea",
+      "id": "split2_desc",
+      "label": "Description",
+      "default": "Our farm-to-table dining philosophy ensures every meal is a celebration of local flavors."
+    },
+    {
+      "type": "text",
+      "id": "split2_btn_text",
+      "label": "Button Text",
+      "default": "View Menu"
+    },
+    {
+      "type": "url",
+      "id": "split2_btn_link",
+      "label": "Button Link",
+      "default": "/pages/dining"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Welcome & Split Features"
+    }
+  ]
+}
+{% endschema %}

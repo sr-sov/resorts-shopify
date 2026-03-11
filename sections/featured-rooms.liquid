@@ -1,0 +1,189 @@
+<section class="section section-alt" id="rooms">
+  <div class="section-inner">
+    <div class="section-centered">
+      {% if section.settings.tag != blank %}
+        <div class="section-tag">{{ section.settings.tag }}</div>
+      {% endif %}
+      
+      {% if section.settings.title != blank %}
+        <h2 class="section-title">{{ section.settings.title }}</h2>
+      {% endif %}
+      
+      {% if section.settings.desc != blank %}
+        <p class="section-desc">{{ section.settings.desc }}</p>
+      {% endif %}
+    </div>
+
+    <div class="rooms-grid">
+      {% for block in section.blocks %}
+        {% assign product = block.settings.product %}
+        
+        <div class="room-card">
+          <a href="{% if product != blank %}{{ product.url }}{% else %}#{% endif %}" class="room-card-image">
+            {% if block.settings.badge != blank %}
+              <div class="room-card-badge">{{ block.settings.badge }}</div>
+            {% endif %}
+            
+            {% if product != blank and product.featured_image %}
+              <img src="{{ product.featured_image | image_url: width: 600 }}" alt="{{ product.title }}" loading="lazy">
+              {% assign inventory_threshold = section.settings.inventory_threshold | default: 5 %}
+              {% if product.available and product.variants.first.inventory_quantity > 0 and product.variants.first.inventory_quantity <= inventory_threshold %}
+                <div class="room-inventory-tag">
+                  {{ section.settings.inventory_badge_text | replace: '{{ count }}', product.variants.first.inventory_quantity }}
+                </div>
+              {% endif %}
+            {% else %}
+              {{ 'product-1' | placeholder_svg_tag: 'room-card-image' }}
+            {% endif %}
+          </a>
+          
+          <div class="room-card-body">
+            <h3 class="room-card-name">
+              <a href="{% if product != blank %}{{ product.url }}{% else %}#{% endif %}">
+                {% if product != blank %}{{ product.title }}{% else %}Select a Product{% endif %}
+              </a>
+            </h3>
+            
+            <p class="room-card-desc">
+              {% if product != blank and product.description != blank %}
+                {{ product.description | strip_html | truncatewords: 20 }}
+              {% else %}
+                Please select a product with a description.
+              {% endif %}
+            </p>
+            
+            <div class="room-card-meta">
+              {% if block.settings.meta1 != blank %}<span>{{ block.settings.meta1 }}</span>{% endif %}
+              {% if block.settings.meta2 != blank %}<span>{{ block.settings.meta2 }}</span>{% endif %}
+              {% if block.settings.meta3 != blank %}<span>{{ block.settings.meta3 }}</span>{% endif %}
+            </div>
+            
+            <div class="room-card-footer">
+              <div class="room-price">
+                {% if product != blank %}
+                  {{ product.price | money }} <span>/ night</span>
+                {% else %}
+                  $0.00 <span>/ night</span>
+                {% endif %}
+              </div>
+              <a href="{% if product != blank %}{{ product.url }}{% else %}#{% endif %}" class="room-book-btn">Book</a>
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+
+    {% if section.settings.show_view_all %}
+      <div class="rooms-link" style="display: flex; gap: 16px; justify-content: center; flex-wrap: wrap;">
+        <a href="/collections/all" class="btn btn-outline">Explore All Accommodations</a>
+        <a href="/collections/budget" class="btn btn-outline">Explore Budget Options</a>
+      </div>
+    {% endif %}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Featured Rooms",
+  "settings": [
+    {
+      "type": "text",
+      "id": "tag",
+      "label": "Tag",
+      "default": "Accommodations"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title",
+      "default": "Your Private Sanctuary"
+    },
+    {
+      "type": "textarea",
+      "id": "desc",
+      "label": "Description",
+      "default": "Discover our collection of thoughtfully designed villas and suites."
+    },
+    {
+      "type": "checkbox",
+      "id": "show_view_all",
+      "label": "Show 'View All' Button",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Inventory Urgency"
+    },
+    {
+      "type": "range",
+      "id": "inventory_threshold",
+      "min": 1,
+      "max": 20,
+      "step": 1,
+      "label": "Inventory Threshold",
+      "info": "Display badge when stock is at or below this number.",
+      "default": 5
+    },
+    {
+      "type": "text",
+      "id": "inventory_badge_text",
+      "label": "Inventory Badge Text",
+      "info": "Use {{ count }} for the real-time number.",
+      "default": "Only {{ count }} left"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "room",
+      "name": "Room",
+      "limit": 4,
+      "settings": [
+        {
+          "type": "product",
+          "id": "product",
+          "label": "Select Product (Room)"
+        },
+        {
+          "type": "header",
+          "content": "Metadata (Icons + Text)"
+        },
+        {
+          "type": "text",
+          "id": "meta1",
+          "label": "Meta 1",
+          "default": "👥 2 Guests"
+        },
+        {
+          "type": "text",
+          "id": "meta2",
+          "label": "Meta 2",
+          "default": "📐 85 m²"
+        },
+        {
+          "type": "text",
+          "id": "meta3",
+          "label": "Meta 3",
+          "default": "🌿 Garden View"
+        },
+        {
+          "type": "text",
+          "id": "badge",
+          "label": "Badge Text",
+          "default": "Popular"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Featured Rooms",
+      "blocks": [
+        { "type": "room" },
+        { "type": "room" },
+        { "type": "room" },
+        { "type": "room" }
+      ]
+    }
+  ]
+}
+{% endschema %}

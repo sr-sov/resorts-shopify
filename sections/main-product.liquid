@@ -1,0 +1,641 @@
+<style>
+/* === Product / Room Page (Agoda/Booking.com Style UX) === */
+.product-page {
+  padding-top: 100px;
+  background: var(--bg);
+  min-height: 100vh;
+}
+
+.room-header {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 20px 48px;
+}
+
+.room-breadcrumb {
+  font-size: 13px;
+  color: var(--text-muted);
+  margin-bottom: 12px;
+}
+
+.room-breadcrumb a {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.room-title {
+  font-family: var(--font-display);
+  font-size: 32px;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.room-rating {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+.stars { color: #f5b041; }
+
+.room-gallery {
+  max-width: var(--max-width);
+  margin: 0 auto 40px;
+  padding: 0 48px;
+  display: grid;
+  gap: 12px;
+  height: 500px;
+}
+
+.room-gallery.count-1 { grid-template-columns: 1fr; }
+.room-gallery.count-2 { grid-template-columns: 1fr 1fr; }
+.room-gallery.count-3 { grid-template-columns: 2fr 1fr; grid-template-rows: 1fr 1fr; }
+.room-gallery.count-4 { grid-template-columns: 2fr 1fr 1fr; grid-template-rows: 1fr 1fr; }
+.room-gallery.count-5 { grid-template-columns: 2fr 1fr 1fr; grid-template-rows: 1fr 1fr; }
+
+.gallery-item {
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.gallery-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.gallery-item:hover img {
+  transform: scale(1.05);
+}
+
+.room-gallery .gallery-item:nth-child(1) { border-radius: var(--radius-lg) 0 0 var(--radius-lg); }
+
+.count-1 .gallery-item:nth-child(1) { border-radius: var(--radius-lg); }
+
+.count-2 .gallery-item:nth-child(2) { border-radius: 0 var(--radius-lg) var(--radius-lg) 0; }
+
+.count-3 .gallery-item:nth-child(1) { grid-row: 1 / 3; }
+.count-3 .gallery-item:nth-child(2) { border-radius: 0 var(--radius-lg) 0 0; }
+.count-3 .gallery-item:nth-child(3) { border-radius: 0 0 var(--radius-lg) 0; }
+
+.count-4 .gallery-item:nth-child(1) { grid-column: 1 / 2; grid-row: 1 / 3; }
+.count-4 .gallery-item:nth-child(2) { grid-column: 2 / 4; grid-row: 1 / 2; border-radius: 0 var(--radius-lg) 0 0; }
+.count-4 .gallery-item:nth-child(3) { grid-column: 2 / 3; grid-row: 2 / 3; }
+.count-4 .gallery-item:nth-child(4) { grid-column: 3 / 4; grid-row: 2 / 3; border-radius: 0 0 var(--radius-lg) 0; }
+
+.count-5 .gallery-item:nth-child(1) { grid-column: 1 / 2; grid-row: 1 / 3; }
+.count-5 .gallery-item:nth-child(2) { grid-column: 2 / 3; grid-row: 1 / 2; }
+.count-5 .gallery-item:nth-child(3) { grid-column: 3 / 4; grid-row: 1 / 2; border-radius: 0 var(--radius-lg) 0 0; }
+.count-5 .gallery-item:nth-child(4) { grid-column: 2 / 3; grid-row: 2 / 3; }
+.count-5 .gallery-item:nth-child(5) { grid-column: 3 / 4; grid-row: 2 / 3; border-radius: 0 0 var(--radius-lg) 0; }
+
+.show-all-btn {
+  position: absolute;
+  bottom: 24px;
+  right: 24px;
+  background: var(--white);
+  color: var(--text);
+  padding: 10px 20px;
+  border-radius: 100px;
+  font-size: 13px;
+  font-weight: 600;
+  box-shadow: var(--shadow-lg);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  z-index: 10;
+  transition: all var(--transition);
+  border: 1px solid var(--border-light);
+}
+
+.show-all-btn:hover {
+  background: var(--bg-alt);
+  transform: translateY(-2px);
+}
+
+/* Split Content Area */
+.room-content {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 0 48px 80px;
+  display: grid;
+  grid-template-columns: 1fr 380px;
+  gap: 48px;
+  align-items: start;
+}
+
+/* Left Column: Details */
+.room-details-section {
+  padding-bottom: 32px;
+  margin-bottom: 32px;
+  border-bottom: 1px solid var(--border-light);
+}
+
+.urgency-banner {
+  background: var(--accent-light);
+  color: var(--accent);
+  padding: 16px 20px;
+  border-radius: var(--radius);
+  font-size: 14px;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 32px;
+  border: 1px solid var(--border-light);
+}
+
+.urgency-icon { font-size: 18px; }
+
+.room-meta-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 32px;
+}
+
+.meta-tag {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  background: var(--bg-alt);
+  border: 1px solid var(--border-light);
+  border-radius: 100px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-secondary);
+}
+
+.room-desc {
+  font-size: 16px;
+  line-height: 1.8;
+  color: var(--text-secondary);
+  font-weight: 300;
+}
+
+.room-details-section h3 {
+  font-family: var(--font-display);
+  font-size: 26px;
+  margin-bottom: 24px;
+  font-weight: 400;
+}
+
+.amenities-list {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.amenity-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 14px;
+  color: var(--text-secondary);
+}
+
+/* Right Column: Sticky Widget */
+.booking-widget-wrapper {
+  position: sticky;
+  top: 100px; /* Offset for navbar */
+}
+
+.booking-widget {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 28px;
+  box-shadow: var(--shadow-lg);
+}
+
+.widget-price-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 20px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--border-light);
+}
+
+.widget-price {
+  font-family: var(--font-display);
+  font-size: 32px;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.widget-per {
+  font-size: 13px;
+  color: var(--text-muted);
+}
+
+.booking-form .input-group {
+  margin-bottom: 16px;
+}
+
+.booking-form label {
+  display: block;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-muted);
+  margin-bottom: 8px;
+}
+
+.booking-form input,
+.booking-form select {
+  width: 100%;
+  padding: 14px 18px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  font-family: var(--font-body);
+  font-size: 14px;
+  background: var(--bg-alt);
+  color: var(--text);
+  transition: all var(--transition);
+  cursor: pointer;
+  appearance: none;
+}
+
+.booking-form select {
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%234a6b52' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right 16px center;
+  background-size: 14px;
+}
+
+.booking-form input:focus,
+.booking-form select:focus {
+  outline: none;
+  border-color: var(--accent);
+  background: var(--white);
+  box-shadow: 0 0 0 4px var(--accent-light);
+}
+
+.btn-book {
+  width: 100%;
+  padding: 18px;
+  background: var(--accent);
+  color: white;
+  border: none;
+  border-radius: var(--radius);
+  font-family: var(--font-body);
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all var(--transition);
+  margin-top: 8px;
+}
+
+.btn-book:hover {
+  background: var(--accent-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(46, 125, 91, 0.25);
+}
+
+.trust-markers {
+  margin-top: 20px;
+}
+
+.trust-marker {
+  font-size: 13px;
+  color: var(--text-secondary);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.trust-marker span.green {
+  color: var(--accent);
+  font-weight: 600;
+}
+
+/* Lightbox Modal */
+.room-lightbox {
+  position: fixed;
+  inset: 0;
+  background: var(--white);
+  z-index: 2000;
+  display: none; /* hidden by default */
+  flex-direction: column;
+  overflow-y: auto;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.room-lightbox.active {
+  display: flex;
+  opacity: 1;
+}
+
+.lightbox-header {
+  position: sticky;
+  top: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 48px;
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(10px);
+  z-index: 10;
+}
+
+.close-lightbox {
+  background: var(--bg-alt);
+  border: none;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  color: var(--text);
+  transition: all var(--transition);
+}
+
+.close-lightbox:hover {
+  background: var(--border);
+  transform: rotate(90deg);
+}
+
+.lightbox-content {
+  max-width: 900px;
+  margin: 40px auto;
+  padding: 0 24px;
+  display: grid;
+  gap: 24px;
+}
+
+.lightbox-item img {
+  width: 100%;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+
+@media (max-width: 900px) {
+  .room-content { grid-template-columns: 1fr; }
+  .booking-widget-wrapper { position: static; margin-top: 40px; }
+  .room-gallery { height: 350px; grid-template-columns: 1fr !important; grid-template-rows: 1fr !important; }
+  .room-gallery .gallery-item:nth-child(n+2) { display: none; }
+  .room-gallery .gallery-item:nth-child(1) { grid-column: 1 / -1 !important; grid-row: 1 / -1 !important; border-radius: var(--radius-lg) !important; }
+  .room-header, .room-gallery, .room-content { padding-left: 20px; padding-right: 20px; }
+  .lightbox-header { padding: 16px 20px; }
+}
+</style>
+
+<div class="product-page">
+  <!-- Header Info -->
+  <div class="room-header">
+    <div class="room-breadcrumb">
+      <a href="/">Home</a> &rsaquo; <a href="/collections/all">Accommodations</a> &rsaquo; {{ product.title }}
+    </div>
+    <h1 class="room-title">{{ product.title }}</h1>
+    <div class="room-rating">
+      <span class="stars">★★★★★</span>
+      <span>4.9 (128 Reviews)</span>
+      <span>·</span>
+      <span>Palawan, Philippines</span>
+    </div>
+  </div>
+
+  <!-- Masonry / Extended Gallery -->
+  {% assign image_count = product.images.size | at_most: 5 %}
+  {% if image_count == 0 %}{% assign image_count = 3 %}{% endif %}
+  <div class="room-gallery count-{{ image_count }}" style="position: relative;">
+    {% if product.images.size > 0 %}
+      {% for image in product.images limit: 5 %}
+        <div class="gallery-item">
+          <img src="{{ image | image_url: width: 1200 }}" alt="{{ image.alt | default: product.title | escape }}" loading="lazy">
+        </div>
+      {% endfor %}
+      {% if product.images.size > 1 %}
+        <div class="show-all-btn" id="open-gallery">
+          <span>⊞</span> Show all {{ product.images.size }} photos
+        </div>
+      {% endif %}
+    {% else %}
+      <div class="gallery-item">{{ 'product-1' | placeholder_svg_tag: 'gallery-main' }}</div>
+      <div class="gallery-item">{{ 'product-2' | placeholder_svg_tag: 'gallery-main' }}</div>
+      <div class="gallery-item">{{ 'product-3' | placeholder_svg_tag: 'gallery-main' }}</div>
+    {% endif %}
+  </div>
+
+  <!-- Full Gallery Lightbox -->
+  <div class="room-lightbox" id="lightbox">
+    <div class="lightbox-header">
+      <div class="room-rating">
+        <span class="stars">★★★★★</span>
+        <span style="color: var(--text);">{{ product.title }} Gallery</span>
+      </div>
+      <button class="close-lightbox" id="close-gallery">&times;</button>
+    </div>
+    <div class="lightbox-content">
+      {% for image in product.images %}
+        <div class="lightbox-item">
+          <img src="{{ image | image_url: width: 1800 }}" alt="{{ product.title }} - Photo {{ forloop.index }}" loading="lazy">
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+
+  <!-- Main Content Layout -->
+  <div class="room-content">
+    
+    <!-- Left Column: Details -->
+    <div class="room-details">
+      <!-- Urgency Banner (Agoda Style) -->
+      {% assign inventory = product.variants.first.inventory_quantity %}
+      <div class="urgency-banner">
+        <span class="urgency-icon">✨</span>
+        {% if inventory > 0 and inventory < 5 %}
+          Only {{ inventory }} rooms left on our site for your selected dates. **High demand!**
+        {% else %}
+          One of our most-loved suites. People usually book this 3 months in advance.
+        {% endif %}
+      </div>
+
+      <div class="room-details-section">
+        <div class="room-meta-tags">
+          <div class="meta-tag"><span>📐</span> {{ section.settings.size_text | default: "85 m²" }}</div>
+          <div class="meta-tag"><span>👥</span> Up to 2 Guests</div>
+          <div class="meta-tag"><span>🛏️</span> 1 King Bed</div>
+          <div class="meta-tag"><span>🌿</span> Nature View</div>
+        </div>
+        
+        <h3>About this space</h3>
+        <div class="room-desc">
+          {{ product.description | default: "<p>Stay in the heart of the rainforest. This beautifully appointed suite features floor-to-ceiling windows, a private plunge pool, and sustainable luxury finishes designed to blend perfectly with the natural surroundings. Experience unparalleled tranquility while maintaining access to world-class resort amenities.</p>" }}
+        </div>
+      </div>
+
+      <div class="room-details-section">
+        <h3>What this place offers</h3>
+        <div class="amenities-list">
+          <div class="amenity-item"><span>🌊</span> Private Plunge Pool</div>
+          <div class="amenity-item"><span>📶</span> High-speed Wi-Fi</div>
+          <div class="amenity-item"><span>❄️</span> Air Conditioning</div>
+          <div class="amenity-item"><span>☕</span> Espresso Machine</div>
+          <div class="amenity-item"><span>📺</span> 55" Smart TV</div>
+          <div class="amenity-item"><span>🛁</span> Outdoor Rain Shower</div>
+          <div class="amenity-item"><span>🍽️</span> In-room Dining</div>
+          <div class="amenity-item"><span>🧴</span> Organic Toiletries</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right Column: Sticky Widget -->
+    <div class="booking-widget-wrapper">
+      <div class="booking-widget">
+        <div class="widget-price-row">
+          <div>
+            <span class="widget-price">{{ product.price | money | default: "$420" }}</span>
+            <span class="widget-per">avg/night</span>
+          </div>
+        </div>
+
+        {% form 'product', product, class: 'booking-form', data-type: 'add-to-cart-form' %}
+          <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
+          
+          <div style="display: flex; gap: 12px;">
+            <div class="input-group" style="flex: 1;">
+              <label for="check-in">Check-In</label>
+              <input type="date" id="check-in" name="properties[Check-in]" required>
+            </div>
+            <div class="input-group" style="flex: 1;">
+              <label for="check-out">Check-Out</label>
+              <input type="date" id="check-out" name="properties[Check-out]" required>
+            </div>
+          </div>
+
+          <div class="input-group">
+            <label for="guests">Guests</label>
+            <select id="guests" name="properties[Guests]">
+              <option value="1 Adult">1 Adult</option>
+              <option value="2 Adults" selected>2 Adults</option>
+            </select>
+          </div>
+
+          <button type="submit" class="btn-book" {% unless product.available %}disabled{% endunless %}>
+            {% if product.available %}Reserve{% else %}Sold Out{% endif %}
+          </button>
+          
+          <div class="trust-markers">
+            <div class="trust-marker">
+              <span>✓</span> <span><strong>Free cancellation</strong> up to 48 hours before</span>
+            </div>
+            <div class="trust-marker">
+              <span class="green">✓</span> <span class="green">Includes breakfast</span>
+            </div>
+            <div class="trust-marker" style="margin-top: 16px; justify-content: center; font-size: 12px;">
+              You won't be charged yet
+            </div>
+          </div>
+        {% endform %}
+      </div>
+    </div>
+
+  </div> <!-- end .room-content -->
+</div>
+
+<!-- Auto-fill dates script -->
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    // Check URL params from homepage hero booking bar
+    const urlParams = new URLSearchParams(window.location.search);
+    const inDate = urlParams.get('checkin');
+    const outDate = urlParams.get('checkout');
+    
+    const checkinInput = document.getElementById('check-in');
+    const checkoutInput = document.getElementById('check-out');
+    
+    // Set min dates to today
+    const today = new Date().toISOString().split('T')[0];
+    if (checkinInput) {
+      checkinInput.min = today;
+      checkinInput.addEventListener('change', (e) => {
+        checkoutInput.min = e.target.value;
+        if (checkoutInput.value && checkoutInput.value <= e.target.value) {
+          // Auto set checkout to next day if invalid
+          let nextDay = new Date(e.target.value);
+          nextDay.setDate(nextDay.getDate() + 1);
+          checkoutInput.value = nextDay.toISOString().split('T')[0];
+        }
+      });
+    }
+    if (checkoutInput) checkoutInput.min = today;
+
+    // Prefill from URL if exists
+    if (inDate && checkinInput) {
+      checkinInput.value = inDate;
+      checkoutInput.min = inDate;
+    }
+    if (outDate && checkoutInput) {
+      checkoutInput.value = outDate;
+    }
+
+    // Lightbox Logic
+    const lightbox = document.getElementById('lightbox');
+    const openBtn = document.getElementById('open-gallery');
+    const closeBtn = document.getElementById('close-gallery');
+    const galleryItems = document.querySelectorAll('.gallery-item');
+
+    const toggleLightbox = (state) => {
+      if (state) {
+        lightbox.style.display = 'flex';
+        setTimeout(() => lightbox.classList.add('active'), 10);
+        document.body.style.overflow = 'hidden';
+      } else {
+        lightbox.classList.remove('active');
+        setTimeout(() => {
+          lightbox.style.display = 'none';
+          document.body.style.overflow = '';
+        }, 400);
+      }
+    };
+
+    if (openBtn) openBtn.addEventListener('click', () => toggleLightbox(true));
+    if (closeBtn) closeBtn.addEventListener('click', () => toggleLightbox(false));
+    
+    // Also open if clicking individual gallery images
+    galleryItems.forEach(item => {
+      item.addEventListener('click', () => toggleLightbox(true));
+    });
+
+    // Close on escape
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && lightbox.classList.contains('active')) toggleLightbox(false);
+    });
+  });
+</script>
+
+{% schema %}
+{
+  "name": "Product Layout - Hotel UX",
+  "settings": [
+    {
+      "type": "text",
+      "id": "size_text",
+      "label": "Room Size Meta",
+      "default": "85 m²"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Product Layout - Hotel UX"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,148 @@
+<style>
+.collection-hero {
+  background: var(--bg-alt);
+  padding: 160px 48px 80px;
+  text-align: center;
+  border-bottom: 1px solid var(--border-light);
+}
+
+.collection-hero-inner {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.collection-tag {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 16px;
+}
+
+.collection-title {
+  font-family: var(--font-display);
+  font-size: clamp(36px, 5vw, 56px);
+  color: var(--text);
+  margin-bottom: 24px;
+}
+
+.collection-desc {
+  font-size: 16px;
+  color: var(--text-secondary);
+  line-height: 1.8;
+  font-weight: 300;
+}
+
+.collection-toolbar {
+  max-width: var(--max-width);
+  margin: 40px auto;
+  padding: 0 48px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 14px;
+  color: var(--text-secondary);
+}
+
+@media (max-width: 768px) {
+  .collection-hero {
+    padding: 120px 24px 60px;
+  }
+}
+</style>
+
+<div class="collection-page">
+  <div class="collection-hero">
+    <div class="collection-hero-inner">
+      <div class="collection-tag">Discover</div>
+      <h1 class="collection-title">{{ collection.title | default: 'Our Accommodations' }}</h1>
+      {% if collection.description != blank %}
+        <div class="collection-desc">{{ collection.description }}</div>
+      {% endif %}
+    </div>
+  </div>
+
+  <div class="collection-toolbar">
+    <div class="collection-count">
+      Showing {{ collection.all_products_count }} accommodations
+    </div>
+  </div>
+
+  <section class="section" id="collection-grid" style="padding-top: 0;">
+    <div class="section-inner">
+      <div class="rooms-grid">
+        {% paginate collection.products by 12 %}
+          {% for product in collection.products %}
+            <div class="room-card">
+              <a href="{{ product.url }}" class="room-card-image">
+                {% if product.featured_image %}
+                  <img src="{{ product.featured_image | image_url: width: 600 }}" alt="{{ product.title | escape }}" loading="lazy">
+                {% else %}
+                  {{ 'product-1' | placeholder_svg_tag: 'room-card-image' }}
+                {% endif %}
+              </a>
+              
+              <div class="room-card-body">
+                <h3 class="room-card-name">
+                  <a href="{{ product.url }}">{{ product.title }}</a>
+                </h3>
+                
+                <p class="room-card-desc">
+                  {% if product.description != blank %}
+                    {{ product.description | strip_html | truncatewords: 20 }}
+                  {% else %}
+                    A beautiful room for your stay.
+                  {% endif %}
+                </p>
+                
+                <div class="room-card-meta">
+                  {% if product.metafields.custom.guests != blank %}
+                    <span>👥 {{ product.metafields.custom.guests }}</span>
+                  {% endif %}
+                  {% if product.metafields.custom.view != blank %}
+                    <span>🌿 {{ product.metafields.custom.view }}</span>
+                  {% endif %}
+                  {% if product.metafields.custom.size != blank %}
+                    <span>📐 {{ product.metafields.custom.size }}</span>
+                  {% endif %}
+                  
+                  {% comment %} Default fallback if no metafields {% endcomment %}
+                  {% if product.metafields.custom == empty %}
+                    <span>👥 2 Guests</span>
+                    <span>🌿 Nature View</span>
+                  {% endif %}
+                </div>
+                
+                <div class="room-card-footer">
+                  <div class="room-price">
+                    {{ product.price | money }} <span>/ night</span>
+                  </div>
+                  <a href="{{ product.url }}" class="room-book-btn">Book</a>
+                </div>
+              </div>
+            </div>
+          {% else %}
+            <div style="grid-column: 1 / -1; text-align: center; padding: 60px; color: var(--text-secondary);">
+              <p>No accommodations found in this collection.</p>
+              <a href="/collections/all" class="btn btn-outline" style="margin-top: 24px;">View All Accommodations</a>
+            </div>
+          {% endfor %}
+
+          {% if paginate.pages > 1 %}
+            <div style="grid-column: 1 / -1; text-align: center; margin-top: 40px;">
+              {{ paginate | default_pagination }}
+            </div>
+          {% endif %}
+        {% endpaginate %}
+      </div>
+    </div>
+  </section>
+</div>
+
+{% schema %}
+{
+  "name": "Collection Grid",
+  "settings": []
+}
+{% endschema %}
