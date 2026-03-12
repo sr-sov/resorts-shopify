@@ -1,0 +1,13 @@
+<div style="text-align: center; padding: 100px;">
+  <h1>Search Results</h1>
+  <form action="/search" method="get" role="search">
+    <input type="search" name="q" value="{{ search.terms | escape }}">
+    <button type="submit">Search</button>
+  </form>
+</div>
+{% schema %}
+{
+  "name": "Search Main",
+  "settings": []
+}
+{% endschema %}
