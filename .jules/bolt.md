@@ -1,0 +1,3 @@
+## 2024-05-24 - [LCP & Scroll Event Optimizations]
+**Learning:** The layout contained a `scroll` event listener that lacked `requestAnimationFrame` and `{ passive: true }`, potentially causing main-thread blocking. The hero image incorrectly used `loading="lazy"` which delayed Largest Contentful Paint (LCP) and missed an opportunity to use `fetchpriority="high"`.
+**Action:** When updating hero components, ensure LCP elements use `fetchpriority="high"` and are NOT lazy-loaded. When adding scroll event listeners, always wrap DOM mutations in `requestAnimationFrame` and apply `{ passive: true }`.

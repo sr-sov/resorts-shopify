@@ -1,9 +1,14 @@
 <section class="hero">
   <div class="hero-image-wrapper">
+    {% comment %}
+      ⚡ Bolt: LCP Optimization
+      Removed loading="lazy" and added fetchpriority="high" to the hero image (Largest Contentful Paint)
+      to ensure the browser requests it immediately. Also added strip_html | escape for security.
+    {% endcomment %}
     {% if section.settings.image %}
-      <img src="{{ section.settings.image | image_url: width: 2000 }}" alt="{{ section.settings.heading }}" class="hero-image" loading="lazy">
+      <img src="{{ section.settings.image | image_url: width: 2000 }}" alt="{{ section.settings.heading | strip_html | escape }}" class="hero-image" fetchpriority="high">
     {% else %}
-      <img src="{{ 'hero.png' | asset_url }}" alt="{{ section.settings.heading }}" class="hero-image" loading="lazy">
+      <img src="{{ 'hero.png' | asset_url }}" alt="{{ section.settings.heading | strip_html | escape }}" class="hero-image" fetchpriority="high">
     {% endif %}
     <div class="hero-overlay"></div>
   </div>
