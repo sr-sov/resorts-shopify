@@ -1,0 +1,3 @@
+## 2024-05-24 - [INP and LCP Optimizations]
+**Learning:** Scroll event listeners can block the main thread and degrade INP (Interaction to Next Paint) if not optimized. Hero images with `loading="lazy"` negatively impact LCP (Largest Contentful Paint) as they are above-the-fold content. XSS prevention is needed on user-controlled inputs like `section.settings.heading`.
+**Action:** Optimized navbar scroll event listener in `layout/theme.liquid` using `requestAnimationFrame` and `{ passive: true }`. Replaced `loading="lazy"` with `fetchpriority="high"` and added `strip_html | escape` on the hero image in `sections/hero.liquid`.
