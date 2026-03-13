@@ -1,0 +1,3 @@
+## 2024-05-24 - LCP Image Optimization in Shopify Liquid
+**Learning:** Found a codebase-specific anti-pattern: lazy-loading LCP (Largest Contentful Paint) hero images using `loading="lazy"`. This delays LCP. Also discovered the `heading` setting can contain HTML (`<em>`), which must be stripped and escaped when used in the `alt` attribute to prevent XSS.
+**Action:** Always use `fetchpriority="high"` instead of `loading="lazy"` for above-the-fold components (like the hero image). Always apply `strip_html | escape` to variables rendering dynamic or user-controlled content in Liquid templates, especially attributes like `alt`.
