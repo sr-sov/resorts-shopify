@@ -25,7 +25,7 @@
             {% endif %}
             
             {% if product != blank and product.featured_image %}
-              <img src="{{ product.featured_image | image_url: width: 600 }}" alt="{{ product.title }}" loading="lazy">
+              <img src="{{ product.featured_image | image_url: width: 600 }}" alt="{{ product.title | escape }}" loading="lazy">
               {% assign inventory_threshold = section.settings.inventory_threshold | default: 5 %}
               {% if product.available and product.variants.first.inventory_quantity > 0 and product.variants.first.inventory_quantity <= inventory_threshold %}
                 <div class="room-inventory-tag">
@@ -40,7 +40,7 @@
           <div class="room-card-body">
             <h3 class="room-card-name">
               <a href="{% if product != blank %}{{ product.url }}{% else %}#{% endif %}">
-                {% if product != blank %}{{ product.title }}{% else %}Select a Product{% endif %}
+                {% if product != blank %}{{ product.title | escape }}{% else %}Select a Product{% endif %}
               </a>
             </h3>
             

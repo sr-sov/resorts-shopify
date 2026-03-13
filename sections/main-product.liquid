@@ -400,9 +400,9 @@
   <!-- Header Info -->
   <div class="room-header">
     <div class="room-breadcrumb">
-      <a href="/">Home</a> &rsaquo; <a href="/collections/all">Accommodations</a> &rsaquo; {{ product.title }}
+      <a href="/">Home</a> &rsaquo; <a href="/collections/all">Accommodations</a> &rsaquo; {{ product.title | escape }}
     </div>
-    <h1 class="room-title">{{ product.title }}</h1>
+    <h1 class="room-title">{{ product.title | escape }}</h1>
     <div class="room-rating">
       <span class="stars">★★★★★</span>
       <span>4.9 (128 Reviews)</span>
@@ -438,14 +438,14 @@
     <div class="lightbox-header">
       <div class="room-rating">
         <span class="stars">★★★★★</span>
-        <span style="color: var(--text);">{{ product.title }} Gallery</span>
+        <span style="color: var(--text);">{{ product.title | escape }} Gallery</span>
       </div>
       <button class="close-lightbox" id="close-gallery">&times;</button>
     </div>
     <div class="lightbox-content">
       {% for image in product.images %}
         <div class="lightbox-item">
-          <img src="{{ image | image_url: width: 1800 }}" alt="{{ product.title }} - Photo {{ forloop.index }}" loading="lazy">
+          <img src="{{ image | image_url: width: 1800 }}" alt="{{ product.title | escape }} - Photo {{ forloop.index }}" loading="lazy">
         </div>
       {% endfor %}
     </div>
