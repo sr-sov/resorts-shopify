@@ -1,9 +1,11 @@
 <section class="hero">
   <div class="hero-image-wrapper">
     {% if section.settings.image %}
-      <img src="{{ section.settings.image | image_url: width: 2000 }}" alt="{{ section.settings.heading }}" class="hero-image" loading="lazy">
+      <!-- LCP Optimization: fetchpriority="high" instead of lazy loading for above-the-fold image -->
+      <img src="{{ section.settings.image | image_url: width: 2000 }}" alt="{{ section.settings.heading | strip_html | escape }}" class="hero-image" fetchpriority="high">
     {% else %}
-      <img src="{{ 'hero.png' | asset_url }}" alt="{{ section.settings.heading }}" class="hero-image" loading="lazy">
+      <!-- LCP Optimization: fetchpriority="high" instead of lazy loading for above-the-fold image -->
+      <img src="{{ 'hero.png' | asset_url }}" alt="{{ section.settings.heading | strip_html | escape }}" class="hero-image" fetchpriority="high">
     {% endif %}
     <div class="hero-overlay"></div>
   </div>

@@ -79,9 +79,19 @@
       // Navbar scroll effect
       const nav = document.getElementById('nav');
       if (nav) {
+        // INP & Scroll Optimization: Use requestAnimationFrame to sync UI updates with screen refresh
+        // and passive: true to ensure scrolling is not blocked by the event listener.
+        let ticking = false;
         window.addEventListener('scroll', () => {
-          nav.classList.toggle('scrolled', window.scrollY > 80);
-        });
+          if (!ticking) {
+            window.requestAnimationFrame(() => {
+              nav.classList.toggle('scrolled', window.scrollY > 80);
+              ticking = false;
+            });
+            ticking = true;
+          }
+        }, { passive: true });
+
         // Initial check in case of page reload halfway down
         if (window.scrollY > 80) nav.classList.add('scrolled');
       }
