@@ -422,9 +422,9 @@
         </div>
       {% endfor %}
       {% if product.images.size > 1 %}
-        <div class="show-all-btn" id="open-gallery">
-          <span>⊞</span> Show all {{ product.images.size }} photos
-        </div>
+        <button type="button" class="show-all-btn" id="open-gallery" aria-label="Show all photos">
+          <span aria-hidden="true">⊞</span> Show all {{ product.images.size }} photos
+        </button>
       {% endif %}
     {% else %}
       <div class="gallery-item">{{ 'product-1' | placeholder_svg_tag: 'gallery-main' }}</div>
@@ -440,7 +440,7 @@
         <span class="stars">★★★★★</span>
         <span style="color: var(--text);">{{ product.title }} Gallery</span>
       </div>
-      <button class="close-lightbox" id="close-gallery">&times;</button>
+      <button type="button" class="close-lightbox" id="close-gallery" aria-label="Close gallery">&times;</button>
     </div>
     <div class="lightbox-content">
       {% for image in product.images %}
