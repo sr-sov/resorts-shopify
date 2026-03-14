@@ -1,0 +1,3 @@
+## 2024-03-15 - [Add ARIA labels to Lightbox Image Gallery]
+**Learning:** Found an accessibility issue where icon-only buttons (`&times;`) and `div` elements used as buttons (e.g. `<div class="show-all-btn">`) lacked proper `role`, `tabindex`, and `aria-label` attributes, making them inaccessible to screen readers and keyboard navigation.
+**Action:** Always ensure that any non-standard interactive element (like a `div` acting as a button) is given `role="button"`, `tabindex="0"`, an appropriate `aria-label`, and keyboard event listeners for 'Enter' and 'Space' to allow proper activation. Icon-only `<button>` elements must also have descriptive `aria-label`s.
