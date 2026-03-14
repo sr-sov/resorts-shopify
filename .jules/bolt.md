@@ -1,0 +1,3 @@
+## 2024-05-14 - Navbar Scroll Listener and LCP Image Optimizations
+**Learning:** Scroll event listeners can negatively impact INP if they block the main thread. Using `{ passive: true }` and `requestAnimationFrame` significantly improves responsiveness for layout-thrashing events. Additionally, above-the-fold hero images should use `fetchpriority="high"` rather than `loading="lazy"` to optimize the Largest Contentful Paint (LCP) metric. All dynamic variables in `alt` tags must use `strip_html | escape` to prevent XSS.
+**Action:** Implemented `requestAnimationFrame` with `{ passive: true }` for the navbar scroll listener in `layout/theme.liquid`. Changed `loading="lazy"` to `fetchpriority="high"` and added XSS filters for the hero image in `sections/hero.liquid`.
