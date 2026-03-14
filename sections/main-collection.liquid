@@ -85,7 +85,8 @@
               
               <div class="room-card-body">
                 <h3 class="room-card-name">
-                  <a href="{{ product.url }}">{{ product.title }}</a>
+                  <!-- Sentinel: Escaped product title to prevent XSS -->
+                  <a href="{{ product.url }}">{{ product.title | escape }}</a>
                 </h3>
                 
                 <p class="room-card-desc">
