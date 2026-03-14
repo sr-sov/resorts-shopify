@@ -1,9 +1,10 @@
 <section class="hero">
   <div class="hero-image-wrapper">
+    <!-- ⚡ Bolt Optimization: Use fetchpriority="high" instead of loading="lazy" for the LCP above-the-fold image to improve Core Web Vitals (LCP < 2.5s) -->
     {% if section.settings.image %}
-      <img src="{{ section.settings.image | image_url: width: 2000 }}" alt="{{ section.settings.heading }}" class="hero-image" loading="lazy">
+      <img src="{{ section.settings.image | image_url: width: 2000 }}" alt="{{ section.settings.heading }}" class="hero-image" fetchpriority="high">
     {% else %}
-      <img src="{{ 'hero.png' | asset_url }}" alt="{{ section.settings.heading }}" class="hero-image" loading="lazy">
+      <img src="{{ 'hero.png' | asset_url }}" alt="{{ section.settings.heading }}" class="hero-image" fetchpriority="high">
     {% endif %}
     <div class="hero-overlay"></div>
   </div>
