@@ -79,9 +79,18 @@
       // Navbar scroll effect
       const nav = document.getElementById('nav');
       if (nav) {
+        // Optimize scroll-based UI effects using requestAnimationFrame and passive listener
+        let isTicking = false;
         window.addEventListener('scroll', () => {
-          nav.classList.toggle('scrolled', window.scrollY > 80);
-        });
+          if (!isTicking) {
+            window.requestAnimationFrame(() => {
+              nav.classList.toggle('scrolled', window.scrollY > 80);
+              isTicking = false;
+            });
+            isTicking = true;
+          }
+        }, { passive: true });
+
         // Initial check in case of page reload halfway down
         if (window.scrollY > 80) nav.classList.add('scrolled');
       }

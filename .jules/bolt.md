@@ -1,0 +1,3 @@
+## 2024-05-23 - Scroll Listener Performance in Legacy UI Setup
+**Learning:** The legacy codebase (`layout/theme.liquid`) implements UI scroll effects (like navigation bar updates) using unthrottled `scroll` event listeners. Because these fire constantly during scrolling and query `window.scrollY` while modifying `classList`, it forces synchronous layout recalculations and main-thread blocking, which can negatively impact Shopify's INP metric.
+**Action:** Always optimize scroll-based UI effects using `requestAnimationFrame` to decouple DOM updates from the scroll event cycle, and include `{ passive: true }` to explicitly prevent scroll jank. This standard pattern was established today for the global nav and should be applied to any future scroll bindings.
