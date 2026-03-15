@@ -1,0 +1,3 @@
+## 2024-05-24 - [Optimize LCP and Scroll Listeners]
+ **Learning:** Shopify themes often suffer from LCP drops when hero images have `loading="lazy"` and INP drops when scroll listeners cause layout thrashing.
+ **Action:** Replaced `loading="lazy"` with `fetchpriority="high"` for the hero image. Refactored `window.addEventListener('scroll', ...)` to use `requestAnimationFrame` and `{ passive: true }` in `layout/theme.liquid`.
