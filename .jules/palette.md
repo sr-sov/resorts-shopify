@@ -1,0 +1,3 @@
+## 2024-05-24 - Interactive Elements Keyboard Accessibility
+**Learning:** In the Shopify theme's custom interactive components (like the Masonry gallery lightbox), there is a pattern of using `<div>` elements with JavaScript click listeners instead of native `<button>` tags. This completely removes the ability for keyboard users to navigate to or trigger these actions.
+**Action:** Always replace generic `<div role="button">` or clickable `<div>` elements with native `<button type="button">` tags. Add appropriate `aria-label` attributes for screen readers, and apply `aria-hidden="true"` to any decorative icons within the button to ensure a clean, accessible experience.
