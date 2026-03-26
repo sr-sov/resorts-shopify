@@ -1,9 +1,10 @@
 <section class="hero">
   <div class="hero-image-wrapper">
+    {% comment %}⚡ Bolt: Using fetchpriority="high" instead of loading="lazy" for above-the-fold hero images to improve LCP metric{% endcomment %}
     {% if section.settings.image %}
-      <img src="{{ section.settings.image | image_url: width: 2000 }}" alt="{{ section.settings.heading }}" class="hero-image" loading="lazy">
+      <img src="{{ section.settings.image | image_url: width: 2000 }}" alt="{{ section.settings.heading | strip_html | escape }}" class="hero-image" fetchpriority="high">
     {% else %}
-      <img src="{{ 'hero.png' | asset_url }}" alt="{{ section.settings.heading }}" class="hero-image" loading="lazy">
+      <img src="{{ 'hero.png' | asset_url }}" alt="{{ section.settings.heading | strip_html | escape }}" class="hero-image" fetchpriority="high">
     {% endif %}
     <div class="hero-overlay"></div>
   </div>
