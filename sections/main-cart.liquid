@@ -216,12 +216,12 @@
               </div>
               
               <div class="cart-item-details">
-                <h3><a href="{{ item.url }}">{{ item.product.title }}</a></h3>
+                <h3><a href="{{ item.url }}">{{ item.product.title | escape }}</a></h3>
                 
                 {%- if item.properties.size > 0 -%}
                   <div class="cart-item-properties">
                     {%- for property in item.properties -%}
-                      <p><strong>{{ property.first }}:</strong> {{ property.last }}</p>
+                      <p><strong>{{ property.first | escape }}:</strong> {{ property.last | escape }}</p>
                     {%- endfor -%}
                   </div>
                 {%- endif -%}
@@ -241,7 +241,7 @@
         <div class="cart-summary">
           <div class="cart-notes">
             <label for="CartSpecialInstructions">Special Requests (Optional)</label>
-            <textarea name="note" id="CartSpecialInstructions" placeholder="Tell us about special occasions or specific requests...">{{ cart.note }}</textarea>
+            <textarea name="note" id="CartSpecialInstructions" placeholder="Tell us about special occasions or specific requests...">{{ cart.note | escape }}</textarea>
           </div>
 
           <div class="cart-checkout-box">
